@@ -8,7 +8,7 @@ typedef struct Node
 
 }Node;
 
-void addnode(Node** head, int x){
+void insert_end(Node** head, int x){
     Node* nextnode = malloc(sizeof(Node));
     if(nextnode == NULL){
         exit(1);
@@ -34,14 +34,53 @@ void printlist(Node* head){
     }
 }
 
+void deallocate(Node** head){
+    Node* curr = 0;
+    while(curr!= NULL){
+        Node* aux = curr;
+        curr = curr -> next; 
+        free(aux); 
+    }
+    *head = NULL;
+}
 
+
+void insert_after(Node* node, int x){
+    Node* new_node = malloc(sizeof(Node));
+    if(new_node == NULL){
+        return 5;
+    }
+    new_node -> value = x;
+    new_node -> next = node -> next;
+    node -> next = new_node;
+}
+
+
+void insert_beginning(Node** root, int x){
+    Node* new_node = malloc(sizeof(Node));
+    if (new_node == NULL ){
+        exit (3);
+    }
+    new_node -> value = x;
+    new_node -> next = *root;
+
+    *root = new_node;
+}
 int main(){
-
+ 
     Node* node = NULL;
     
-    addnode(&node, 5);
-    addnode(&node, 6);
+    insert_beginning(&node, 10);
+    
+    insert_end(&node, 5);
+    insert_end(&node, 6);
+
+    insert_after(node, 7);
+
+    insert_beginning(&node, 11);
 
     printlist(node);
-    return 0;
+
+    deallocate(&node);
+        return 0;
 }
